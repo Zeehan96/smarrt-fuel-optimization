@@ -50,17 +50,10 @@ export async function invokeApi({
     // It's best to let axios set the Content-Type automatically for FormData so it includes the boundary
   }
 
-  console.log(`🚀 [API Request] ${method} -> ${reqObj.url}`, {
-    method,
-    url: reqObj.url,
-    headers: reqObj.headers,
-    queryParams: reqObj.params,
-    postData: reqObj.data,
-  });
 
   try {
     results = await axios(reqObj);
-    console.log(`✅ [API Response Success] ${method} -> ${reqObj.url}:`, results.data);
+    console.log(`%c<================success===========>\n  ✅ ${method} -> ${reqObj.url}\n<=================================>`, "color: #22c55e; font-weight: bold; font-size: 12px;", results.data);
     return results.data;
   } catch (error) {
     const status = error.response?.status;

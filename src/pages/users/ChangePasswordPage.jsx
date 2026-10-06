@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Lock, Eye, EyeOff } from "lucide-react";
 import { enqueueSnackbar } from "notistack";
-import { _admin_change_password_api } from "../../DAL/auth/authApis";
+import { _update_user } from "../../api/users";
+import { useAppContext } from "../../hooks/useAppContext";
 import {
   Button,
   CRUD_FORM_INPUT_CLASS,
@@ -10,6 +11,7 @@ import {
 } from "../../components";
 
 const ChangePasswordPage = () => {
+  const { user } = useAppContext();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     newPassword: "",
@@ -34,11 +36,13 @@ const ChangePasswordPage = () => {
 
     setLoading(true);
     try {
-      const response = await _admin_change_password_api({
-        new_password: formData.newPassword,
-      });
+      // Use the update user API with only the password field
+      const formPayload = new FormData();
+      formPayload.append("password", formData.newPassword);
 
-      if (response?.code === 200) {
+      const response = await _update_user(user?.id || user?._id, formPayload);
+
+      if (response?.success || response?.code === 200) {
         enqueueSnackbar(response?.message || "Password changed successfully", {
           variant: "success",
         });

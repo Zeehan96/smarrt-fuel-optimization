@@ -216,7 +216,7 @@ export const AppProvider = ({ children }) => {
             ? "Individual User"
             : "Admin",
         country: userData.country,
-        phoneNumber: userData.phoneNumber,
+        phoneNumber: userData.phoneNumber,  // Contact number — required by Task 1
       };
 
       const response = await _register_user_api(apiBody);
